@@ -1,46 +1,25 @@
 #include <iostream>
+#include <ctime>
+#include "MyArray.hpp"
 using namespace std;
-template <typename T>
-bool comp(const T&a, const T&b);
-
-template <typename T, typename Compare>
-void mqsort( T first, T last, Compare comp)
-{
-    qsort:
-    typedef typename
-        iterator_traits<T>::value_type Value;
-    T i=first;
-    T j=last-1;
-    Value x;
-    if ((j-i)>=3)//выбираем опорный элемнт, если в текущем интервале минимум 3 элемента
-    {
-        int av=*(i+(j-i)/2);//средний индекс текущего интервала
-        if ((*j-av)*(j-i)<0) x=*j;//если произведение разностей разных знаков,
-        if ((av-(*i))*(av-(*j))<0) x=av;//то это число между ними
-        if ((*i-av)*(i-j)<0) x=*i;//и является медианой из 3-х
-    }
-       else
-    x= *(i+rand()%(j-i+1));
-   //cout <<x<<endl;
-
-    do {
-        while (comp(*i, x)) ++i;
-        while (comp(x,*j)) --j;
-        if (j>=i)
-        {
-            swap(*i,*j);
-            i++;
-            j--;
-        }
-    } while (j >= i);
-        if (last>i+1) mqsort(i,last,comp);
-        if (j>first) mqsort(first,j+1,comp);
-}
-
 int main() {
-    int A[7]={2,4,1,7,8,0,9};
-    mqsort(A, A+7, [](int a, int b){return a<b;});
-    for (int i=0;i<7;i++)
+    const long int size=50;
+    int A[size];
+    for (int counter = 0;counter<size;counter++)
+        A[counter]=rand()%100;
+    double start_time = clock();
+    InsertionSort(A, A+size, [](int a, int b){return a<b;});
+    double end_time = clock();
+    for (int i=0;i<size;i++)
         cout <<A[i]<<endl;
+    cout <<"Алгоритм сортировки вставкой сработал за:"<<end_time-start_time<<endl;
+    for (int counter = 0;counter<size;counter++)
+        A[counter]=rand()%100;
+    start_time = clock();
+    mqsort(A, A+size, [](int a, int b){return a<b;});
+    end_time = clock();
+    for (int i=0;i<size;i++)
+        cout <<A[i]<<endl;
+    cout <<"Алгоритм быстрой сортировки сработал за:"<<end_time-start_time<<endl;
     return 0;
 }
